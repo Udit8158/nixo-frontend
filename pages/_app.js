@@ -1,11 +1,15 @@
-import Navbar from "@/components/utility/Navbar";
+import Navbar from "@/components/utility/Navbar/Navbar";
+import Wrapper from "@/components/utility/Wrapper";
 import "@/styles/globals.css";
+import { useState } from "react";
 
 export default function App({ Component, pageProps }) {
   return (
     <>
       <Navbar />
-      <Component {...pageProps} />
+      <Wrapper>
+        <Component {...pageProps} />
+      </Wrapper>
     </>
   );
 }

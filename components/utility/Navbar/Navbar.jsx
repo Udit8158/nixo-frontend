@@ -13,7 +13,7 @@ const Navbar = () => {
     { id: 1, name: "Home", path: "/" },
     { id: 2, name: "Categories" },
     { id: 3, name: "About Us", path: "/about" },
-    { id: 3, name: "Contact Us", path: "/contact" },
+    { id: 4, name: "Contact Us", path: "/contact" },
   ];
   const categoryMenuItems = [
     { id: "c-1", name: "Sports", path: "/category/sports", qty: 10 },
@@ -23,7 +23,7 @@ const Navbar = () => {
   ];
   return (
     <>
-      <div className=" border-b-2 px-6 md:px-24 lg:px-32 flex justify-between items-center h-24 md:h-16 sticky w-screen">
+      <div className=" border-b-2 px-6 md:px-24 lg:px-32 flex justify-between items-center h-24 md:h-16 sticky w-screen top-0 z-50 bg-white">
         {/* Logo */}
         <Link href="/">
           <img src={"./assets/logo.svg"} className="w-12 md:w-20" />
@@ -38,7 +38,6 @@ const Navbar = () => {
 
         {/* Third slot (icons) */}
         <div className="flex justify-center items-center gap-5">
-
           {/* Add to cart icon */}
           <Link
             href="/cart"
@@ -47,8 +46,8 @@ const Navbar = () => {
             <AiOutlineShoppingCart size="2rem" />
           </Link>
 
-         {/* Controll mobile menu opening and closing */}
-         {/* TODO: Size of hambugger and close icons problem when adjust hover rounded effect */}
+          {/* Controll mobile menu opening and closing */}
+          {/* TODO: Size of hambugger and close icons problem when adjust hover rounded effect */}
           {showMobileMenu ? (
             <AiOutlineClose
               size={"2rem"}
