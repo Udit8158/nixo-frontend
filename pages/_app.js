@@ -1,3 +1,4 @@
+import Footer from "@/components/utility/Footer";
 import Navbar from "@/components/utility/Navbar/Navbar";
 import Wrapper from "@/components/utility/Wrapper";
 import "@/styles/globals.css";
@@ -10,6 +11,7 @@ export default function App({ Component, pageProps }) {
       <Wrapper>
         <Component {...pageProps} />
       </Wrapper>
+      <Footer />
     </>
   );
 }
