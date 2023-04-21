@@ -1,8 +1,10 @@
+import Link from "next/link";
 import React from "react";
 
 const ProductCard = ({ scale }) => {
   return (
-    <div
+    <Link
+      href={"/product/product-namne"}
       className={`mt-6 transform transition-all  duration-200 ${
         scale && "hover:scale-105"
       }`}
@@ -18,7 +20,7 @@ const ProductCard = ({ scale }) => {
           <span className="text-green-500">47% off</span>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -1,7 +1,6 @@
 import HomePageCarousel from "@/components/home/HomePageCarousel";
-import ProductCard from "@/components/product/ProductCard";
+import ProductCardContainer from "@/components/product/ProductCardContainer";
 import { Inter } from "next/font/google";
-import Link from "next/link";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,26 +17,7 @@ export default function Home() {
         </p>
         <p>Made for everyone, made by ❤️</p>
       </div>
-      <div className="grid grid-cols-1 gap-10 md:grid-cols-3 mb-16 mt-2">
-        <Link href="/product/product-name">
-          <ProductCard scale={true} />
-        </Link>
-        <Link href="/product/product-name">
-          <ProductCard scale={true} />
-        </Link>
-        <Link href="/product/product-name">
-          <ProductCard scale={true} />
-        </Link>
-        <Link href="/product/product-name">
-          <ProductCard scale={true} />
-        </Link>
-        <Link href="/product/product-name">
-          <ProductCard scale={true} />
-        </Link>
-        <Link href="/product/product-name">
-          <ProductCard scale={true} />
-        </Link>
-      </div>
+      <ProductCardContainer />
     </div>
   );
 }
