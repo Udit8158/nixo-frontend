@@ -22,8 +22,8 @@ const Navbar = () => {
     { id: "c-4", name: "Fashion", path: "/category/fashion", qty: 3 },
   ];
   return (
-    <>
-      <div className=" border-b-2 px-6 md:px-24 lg:px-32 flex justify-between items-center h-24 md:h-16 sticky w-screen top-0 z-50 bg-white">
+    <div className="">
+      <div className=" border-b-2 px-6 md:px-24 lg:px-32 flex justify-between items-center h-24 md:h-16 sticky w-full top-0 z-50 bg-white">
         {/* Logo */}
         <Link href="/">
           <img src={"./assets/logo.svg"} className="w-12 md:w-20" />
@@ -73,7 +73,7 @@ const Navbar = () => {
           setShowCategoryMenuItems={setShowCategoryMenuItems}
         />
       )}
-    </>
+    </div>
   );
 };
 

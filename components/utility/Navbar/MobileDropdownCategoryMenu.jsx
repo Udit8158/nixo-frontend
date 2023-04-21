@@ -8,7 +8,7 @@ const MobileDropdownCategoryMenu = ({ categoryMenuItems }) => {
         <Link
           href={item.path}
           key={item.id}
-          className="flex justify-between items-center  gap-10 pr-6 pl-6 border-b-2 pb-2 py-2 bg-stone-100 hover:bg-stone-200"
+          className="flex justify-between items-center  gap-10 pr-6 pl-6 border-b-2 pb-2 py-2 bg-stone-100 hover:bg-stone-200  transform transition-all  duration-300"
         >
           <span className="opacity-60">{item.name}</span>{" "}
           <span className="font-light text-sm opacity-40">

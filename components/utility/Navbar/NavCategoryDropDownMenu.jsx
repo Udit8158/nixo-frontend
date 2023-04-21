@@ -8,7 +8,7 @@ const NavCategoryDropDownMenu = ({categoryMenuItems}) => {
       <Link
         href={item.path}
         key={item.id}
-        className="flex justify-between items-center gap-10 pr-4 pl-4 py-2 bg-stone-50 hover:bg-stone-200"
+        className="flex justify-between items-center gap-10 pr-4 pl-4 py-2 bg-stone-50 hover:bg-stone-200 transform transition-all duration-300"
       >
         <span className="opacity-80">{item.name}</span>{" "}
         <span className="font-light text-sm opacity-40">
