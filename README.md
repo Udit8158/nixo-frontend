@@ -41,3 +41,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 - This frontend project started on 20/04/2023
 - Version 1.0.0 released on 21/04/2023 [Initial version only frontend done ✅. No backend api interaction till now ❌.]
+- Version 1.0.1 on 21/04/2023 [Fix a bug of adding checkout button on cart page ✅😅.]
