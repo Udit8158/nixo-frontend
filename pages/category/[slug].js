@@ -3,12 +3,12 @@ import fetcher from "@/utils/fetchData";
 import { useRouter } from "next/router";
 import React from "react";
 
-const CategoryPage = ({ productsData }) => {
+const CategoryPage = ({ productsData, categoryName }) => {
   const router = useRouter();
   const { slug } = router.query;
   return (
     <div>
-      {/* <h1>{slug}</h1> */}
+      <h1 className='font-semibold text-3xl my-16 text-center'>{categoryName}</h1>
       <ProductCardContainer productsData={productsData} />
     </div>
   );
@@ -40,16 +40,18 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
+  const {data: categoryData} = await fetcher("GET",`api/categories?filters[categoryId]=${params.slug}`)
   const { data } = await fetcher(
     "GET",
-    `api/categories?populate=*&filters[categoryId][$eq]=${params.slug}`
+    `api/products?populate=*&filters[categories][categoryId][$eq]=${params.slug}`
   );
 
-  console.log(data)
+  // console.log(data);
 
   return {
     props: {
-      productsData: data && data[0]?.attributes?.products?.data,
+      productsData: data,
+      categoryName: categoryData[0].attributes?.categoryName
     },
   };
 }
