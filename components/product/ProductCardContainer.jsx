@@ -13,12 +13,9 @@ const ProductCardContainer = ({ productsData }) => {
             key={product?.productId}
             name={product?.name}
             productId={product?.productId}
-            description={product?.description}
-            sizes={product?.sizes?.data}
             price={product?.price}
             originalPrice={product?.originalPrice}
             subTitle={product?.subTitle}
-            images={product?.images?.data}
             thumbnail={
               product?.thumbnail?.data?.attributes?.formats?.small?.url
             }

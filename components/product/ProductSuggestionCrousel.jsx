@@ -4,7 +4,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import ProductCard from "./ProductCard";
 
-const ProductSuggestionCrousel = () => {
+const ProductSuggestionCrousel = ({ sameSubTitleProducts }) => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -25,11 +25,23 @@ const ProductSuggestionCrousel = () => {
     },
   };
   return (
-    <Carousel responsive={responsive} containerClass="rounded-md" itemClass="pr-4 ">
-      <ProductCard scale={false}/>
-      <ProductCard scale={false}/>
-      <ProductCard scale={false}/>
-      <ProductCard scale={false}/>
+    <Carousel
+      responsive={responsive}
+      containerClass="rounded-md"
+      itemClass="pr-4 "
+    >
+      {sameSubTitleProducts?.map(({ attributes: product }) => (
+        <ProductCard
+          scale={false}
+          key={product?.productId}
+          name={product?.name}
+          productId={product?.productId}
+          price={product?.price}
+          originalPrice={product?.originalPrice}
+          subTitle={product?.subTitle}
+          thumbnail={product?.thumbnail?.data?.attributes?.formats?.small?.url}
+        />
+      ))}
     </Carousel>
   );
 };

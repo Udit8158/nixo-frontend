@@ -1,14 +1,13 @@
 import ProductCardContainer from "@/components/product/ProductCardContainer";
 import fetcher from "@/utils/fetchData";
-import { useRouter } from "next/router";
 import React from "react";
 
 const CategoryPage = ({ productsData, categoryName }) => {
-  const router = useRouter();
-  const { slug } = router.query;
   return (
     <div>
-      <h1 className='font-semibold text-3xl my-16 text-center'>{categoryName}</h1>
+      <h1 className="font-semibold text-3xl my-16 text-center">
+        {categoryName}
+      </h1>
       <ProductCardContainer productsData={productsData} />
     </div>
   );
@@ -16,22 +15,22 @@ const CategoryPage = ({ productsData, categoryName }) => {
 
 export default CategoryPage;
 
+// define the paths can be posssible with /category
 export async function getStaticPaths() {
+  // fetch all categories
   const { data: categoryData } = await fetcher(
     "GET",
     "api/categories?populate=*"
   );
-  // console.log('DDDD', categoryData)
 
+  // makes paths from categoryid
   const pathsData = categoryData?.map((cat) => {
-    // console.log('category', cat)
     return {
       params: {
         slug: `${cat?.attributes?.categoryId}`,
       },
     };
   });
-  // console.log('pathsData', pathsData)
 
   return {
     paths: pathsData,
@@ -40,18 +39,21 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const {data: categoryData} = await fetcher("GET",`api/categories?filters[categoryId]=${params.slug}`)
+  // fetch the particula category data
+  const { data: categoryData } = await fetcher(
+    "GET",
+    `api/categories?filters[categoryId]=${params.slug}`
+  );
+  // fetch the products from the particular caterory data
   const { data } = await fetcher(
     "GET",
     `api/products?populate=*&filters[categories][categoryId][$eq]=${params.slug}`
   );
 
-  // console.log(data);
-
   return {
     props: {
       productsData: data,
-      categoryName: categoryData[0].attributes?.categoryName
+      categoryName: categoryData[0].attributes?.categoryName,
     },
   };
 }
