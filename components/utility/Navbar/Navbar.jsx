@@ -1,9 +1,10 @@
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai";
 import { RxHamburgerMenu } from "react-icons/rx";
 import NavMenu from "./NavMenu";
 import MobileMenu from "./MobileMenu";
+import fetcher from "@/utils/fetchData";
 
 const Navbar = () => {
   const [showCategoryMenuItems, setShowCategoryMenuItems] = useState(false);
@@ -15,12 +16,33 @@ const Navbar = () => {
     { id: 3, name: "About Us", path: "/about" },
     { id: 4, name: "Contact Us", path: "/contact" },
   ];
-  const categoryMenuItems = [
-    { id: "c-1", name: "Sports", path: "/category/sports", qty: 10 },
-    { id: "c-2", name: "Jordon", path: "/category/jordon", qty: 12 },
-    { id: "c-3", name: "Running", path: "/category/running", qty: 23 },
-    { id: "c-4", name: "Fashion", path: "/category/fashion", qty: 3 },
-  ];
+
+  // ---- Dummy data --------------------
+  // const categoryMenuItems = [
+  //   { id: "c-1", name: "Sports", path: "/category/sports", qty: 10 },
+  //   { id: "c-2", name: "Jordon", path: "/category/jordon", qty: 12 },
+  //   { id: "c-3", name: "Running", path: "/category/running", qty: 23 },
+  //   { id: "c-4", name: "Fashion", path: "/category/fashion", qty: 3 },
+  // ];
+  
+  const [categoryMenuItems, setCategoryMenuItems] = useState([]);
+
+  useEffect(() => {
+    const getCategoryMenuItemsData = async () => {
+      const { data } = await fetcher("GET", "api/categories?populate=*");
+      const refinedData = data?.map(({ attributes }) => {
+        return {
+          id: attributes?.categoryId,
+          name: attributes?.categoryName,
+          path: `/category/${attributes?.categoryId}`,
+          qty: attributes?.products?.data.length,
+        };
+      });
+      setCategoryMenuItems([...refinedData]);
+    };
+    getCategoryMenuItemsData();
+  }, []);
+
   return (
     <div className="">
       <div className=" border-b-2 px-6 md:px-24 lg:px-32 flex justify-between items-center h-24 md:h-16 sticky w-full top-0 z-50 bg-white">

@@ -3,7 +3,7 @@ import ProductCard from "./ProductCard";
 import fetcher from "@/utils/fetchData";
 
 const ProductCardContainer = ({ productsData }) => {
-  console.log("Products Data", productsData);
+  // console.log("Products Data", productsData);
   return (
     <div className="grid grid-cols-1 gap-10 md:grid-cols-3 mb-16 mt-2">
       {productsData?.map(({ attributes: product }) => {
