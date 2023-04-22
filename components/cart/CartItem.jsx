@@ -9,7 +9,7 @@ const CartItem = () => {
         <div className="flex flex-col gap-2 md:gap-14">
           <div className="flex flex-col gap-1">
             <p className="font-semibold md:text-xl">Jordan Retro OG</p>
-            <span className="opacity-50 text-sm md:text-base">Men's Shoe</span>
+            <span className="opacity-50 text-sm md:text-base">Men&apos;s Shoe</span>
           </div>
           <div className="flex md:items-center gap-3 opacity-50 flex-col  md:flex-row text-xs md:text-base">
             <div className="flex gap-2 items-center">
