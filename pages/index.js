@@ -1,10 +1,11 @@
 import HomePageCarousel from "@/components/home/HomePageCarousel";
 import ProductCardContainer from "@/components/product/ProductCardContainer";
+import fetcher from "@/utils/fetchData";
 import { Inter } from "next/font/google";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({productsData}) {
   return (
     <div className="">
       {/* <h1 className="text-center">HOME Page</h1> */}
@@ -17,7 +18,18 @@ export default function Home() {
         </p>
         <p>Made for everyone, made by ❤️</p>
       </div>
-      <ProductCardContainer />
+      <ProductCardContainer productsData={productsData}/>
     </div>
   );
+}
+
+export async function getStaticProps() {
+  // getting all products data from server
+  const { data: productsData } = await fetcher("GET", "api/products?populate=*");
+
+  return {
+    props: {
+      productsData,
+    }, 
+  };
 }
