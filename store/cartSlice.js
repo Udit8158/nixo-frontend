@@ -9,6 +9,17 @@ export const cartSlice = createSlice({
     },
   },
   reducers: {
+    // update the subtotal price counting
+    updateSubTotalPrice: (state) => {
+      // ittreate the arry or cart and then add the price of them
+      let total = 0;
+      state.value.data.forEach((item) => {
+        total += item.price * item.qty;
+      });
+      state.value.subTotalPrice = total;
+    },
+
+    // add item to cart function
     addItemToCart: (state, action) => {
       const productIndex = state.value.data.findIndex(
         (element) => element.productId === action.payload.productId
@@ -17,20 +28,23 @@ export const cartSlice = createSlice({
       if (productIndex < 0) {
         // add new product
         state.value.data = [...state.value.data, action.payload];
-        state.value.subTotalPrice += action.payload.price * action.payload.qty;
       } else {
         // increment the quantity of the same product
         const product = state.value.data[productIndex];
         product.qty++;
-        console.log("Same product: ", product.qty);
       }
     },
+
+    // update the quantity of the product
     updateQuantityOfProduct: (state, action) => {
-        const productIndex = state.value.data.findIndex(
-            (element) => element.productId === action.payload.productId
-          );
-          const product = state.value.data[productIndex];
-          product.qty = action.payload.qty
+      // find the product in cart where qty needs to be updated
+      const productIndex = state.value.data.findIndex(
+        (element) => element.productId === action.payload.productId
+      );
+      const product = state.value.data[productIndex];
+
+      // calculate how much qty
+      product.qty = action.payload.qty;
     },
     removeItemFromCart: function (state, item) {},
     emptyCart: function (state) {},
@@ -38,7 +52,12 @@ export const cartSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addItemToCart, updateQuantityOfProduct, removeItemFromCart, emptyCart } =
-  cartSlice.actions;
+export const {
+  updateSubTotalPrice,
+  addItemToCart,
+  updateQuantityOfProduct,
+  removeItemFromCart,
+  emptyCart,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

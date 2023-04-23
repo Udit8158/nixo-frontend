@@ -5,7 +5,8 @@ import ProductSuggestionCrousel from "@/components/product/ProductSuggestionCrou
 import fetcher from "@/utils/fetchData";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown"; // for showing the markdown text into html code
 import { useDispatch } from "react-redux";
-import { addItemToCart } from "@/store/cartSlice";
+import { addItemToCart, updateSubTotalPrice } from "@/store/cartSlice";
+import { useRouter } from "next/router";
 
 const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
   // For size selection
@@ -23,6 +24,8 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
     productId: productData?.productId,
     qty: 1,
   };
+  const router = useRouter()
+  
   return (
     <div>
       <div className="flex flex-col md:flex-row gap-5 my-8">
@@ -83,8 +86,14 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
           <div className="mt-8 flex flex-col">
             <button
               className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95"
-              onClick={() =>
-                selectedSize && dispatch(addItemToCart(productDataForCart))
+              onClick={() =>{
+                if (selectedSize) {
+                  dispatch(addItemToCart(productDataForCart))
+                  dispatch(updateSubTotalPrice())
+                  router.push('/cart')
+                } 
+              
+              }
               }
             >
               Add to cart

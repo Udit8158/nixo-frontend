@@ -1,12 +1,14 @@
-import { updateQuantityOfProduct } from "@/store/cartSlice";
+import {
+  updateQuantityOfProduct,
+  updateSubTotalPrice,
+} from "@/store/cartSlice";
 import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 
 const CartItem = ({ name, productId, subTitle, price, thumbnail, qty }) => {
-  const [productQuantity, setProductQuantity] = useState(qty);
   const dispatch = useDispatch();
-  let quantities = [1,2,3];
+  let quantities = [1, 2, 3];
   if (qty > 1) {
     quantities = [qty - 1, qty, qty + 1];
   } else {
@@ -34,15 +36,18 @@ const CartItem = ({ name, productId, subTitle, price, thumbnail, qty }) => {
             </div> */}
             <div className="flex gap-2 items-center">
               <label htmlFor="qty-select">Quantity</label>
-              {/* <span>{qty}</span> */}
               <select
                 name="qty-select"
                 defaultValue={qty}
-                onChange={(e) =>
+                onChange={(e) => {
                   dispatch(
-                    updateQuantityOfProduct({ productId, qty: Number(e.target.value) })
-                  )
-                }
+                    updateQuantityOfProduct({
+                      productId,
+                      qty: Number(e.target.value),
+                    })
+                  );
+                  dispatch(updateSubTotalPrice());
+                }}
               >
                 {quantities.map((q) => (
                   <option key={q}>{q}</option>

@@ -5,10 +5,12 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import NavMenu from "./NavMenu";
 import MobileMenu from "./MobileMenu";
 import fetcher from "@/utils/fetchData";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
   const [showCategoryMenuItems, setShowCategoryMenuItems] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
+  const cart = useSelector((store) => store.cart.value.data);
 
   const navMenuItems = [
     { id: 1, name: "Home", path: "/" },
@@ -66,12 +68,19 @@ const Navbar = () => {
         {/* Third slot (icons) */}
         <div className="flex justify-center items-center gap-5">
           {/* Add to cart icon */}
-          <Link
-            href="/cart"
-            className=" w-14 h-14 rounded-full flex justify-center items-center hover:bg-stone-100"
-          >
-            <AiOutlineShoppingCart size="2rem" />
-          </Link>
+          <div className="">
+            <Link
+              href="/cart"
+              className=" w-14 h-14 rounded-full flex justify-center items-center hover:bg-stone-100"
+            >
+              <AiOutlineShoppingCart size="2rem" />
+            </Link>
+            {cart.length > 0 && (
+              <span className="bg-red-600 w-6 h-6 rounded-full flex justify-center items-center absolute bottom-14 right-20 md:bottom-9 md:right-24 lg:right-32">
+                {cart.length}
+              </span>
+            )}
+          </div>
 
           {/* Controll mobile menu opening and closing */}
           {/* TODO: Size of hambugger and close icons problem when adjust hover rounded effect */}

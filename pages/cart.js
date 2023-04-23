@@ -1,6 +1,6 @@
 import CartItem from "@/components/cart/CartItem";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { useSelector } from "react-redux";
 
 const CartPage = () => {
