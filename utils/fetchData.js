@@ -1,5 +1,5 @@
-const apiToken = process.env.API_TOKEN;
-const apiUrl = process.env.API_URL || "http://localhost:1337";
+const apiToken = process.env.NEXT_PUBLIC_API_TOKEN;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337";
 
 const fetcher = async (method, subUrl) => {
   //   console.log("Called");
