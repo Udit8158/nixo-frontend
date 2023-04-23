@@ -1,11 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from "react-responsive-carousel";
 import ProductSuggestionCrousel from "@/components/product/ProductSuggestionCrousel";
 import fetcher from "@/utils/fetchData";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown"; // for showing the markdown text into html code
+import { useDispatch } from "react-redux";
+import { addItemToCart } from "@/store/cartSlice";
 
 const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
+  // For size selection
+  const [selectedSize, setSelectedSize] = useState();
+  // console.log(selectedSize);
+
+  // For add to cart
+  const dispatch = useDispatch();
+  const productDataForCart = {
+    name: productData?.name,
+    thumbnail: productData?.thumbnail?.data?.attributes?.formats?.small?.url,
+    selectedSize,
+    subTitle: productData?.subTitle,
+    price: productData?.price,
+    productId: productData?.productId,
+    qty: 1,
+  };
   return (
     <div>
       <div className="flex flex-col md:flex-row gap-5 my-8">
@@ -45,13 +62,17 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
           <div className="grid grid-cols-3 gap-3 mt-8">
             {productData?.sizes?.data?.map((s) => (
               <div
-                className={`border-2 rounded-md px-4 py-2 flex justify-center items-center hover:border-black cursor-pointer transform transition-all  duration-300
-                ${
+                className={`border-2 rounded-md px-4 py-2 flex justify-center items-center hover:border-black ${
+                  s.enabled && "cursor-pointer"
+                } transform transition-all  duration-300 ${
                   !s.enabled &&
                   "bg-gray-400 cursor-not-allowed hover:border-red-500"
                 }
+                ${s.size === selectedSize && "bg-green-500"}
+                 
             `}
-                key={Math.random()}
+                key={s.size}
+                onClick={() => s.enabled && setSelectedSize(s.size)}
               >
                 {s.size}
               </div>
@@ -60,7 +81,12 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
 
           {/* 3. Buttons section */}
           <div className="mt-8 flex flex-col">
-            <button className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95">
+            <button
+              className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95"
+              onClick={() =>
+                selectedSize && dispatch(addItemToCart(productDataForCart))
+              }
+            >
               Add to cart
             </button>
           </div>
@@ -68,9 +94,9 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
           {/* 4. Prdoduct details */}
           <div className="flex flex-col mt-12 gap-4">
             <h3 className="font-semibold">Product Details</h3>
-            <p className="opacity-60">
-              <ReactMarkdown>{productData.description}</ReactMarkdown>
-            </p>
+            <ReactMarkdown className="opacity-60">
+              {productData.description}
+            </ReactMarkdown>
           </div>
         </div>
       </div>
