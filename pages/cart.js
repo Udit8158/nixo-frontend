@@ -1,11 +1,13 @@
 import CartItem from "@/components/cart/CartItem";
+import { emptyCart } from "@/store/cartSlice";
 import Link from "next/link";
 import React from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const CartPage = () => {
   const cart = useSelector((store) => store.cart.value);
   console.log(cart);
+  const dispatch = useDispatch();
 
   if (cart?.data?.length > 0) {
     return (
@@ -43,7 +45,7 @@ const CartPage = () => {
                 </p>
               </div>
               <div className="flex justify-center items-center">
-                <p>
+                <p className="opacity-40">
                   The total subtoatal reflects on the total price of your order
                   on cart. Including all taxes and duties.
                 </p>
@@ -51,6 +53,14 @@ const CartPage = () => {
             </div>
             <button className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95">
               Checkout
+            </button>
+            <button
+              className="px-6 py-3 hover:opacity-70 rounded-xl bg-red-600 text-white  transform transition-all  duration-300 hover:scale-95"
+              onClick={() => {
+                dispatch(emptyCart());
+              }}
+            >
+              Empty Cart
             </button>
           </div>
         </div>

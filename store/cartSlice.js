@@ -58,8 +58,16 @@ export const cartSlice = createSlice({
       // update product size
       product.selectedSize = action.payload.size;
     },
-    removeItemFromCart: function (state, item) {},
-    emptyCart: function (state) {},
+    removeItemFromCart: function (state, action) {
+      // remove the product from cart
+      const filteredCartData = state.value.data.filter(
+        (item) => item.productId !== action.payload.productId
+      );
+      state.value.data = [...filteredCartData];
+    },
+    emptyCart: function (state) {
+      state.value.data = [];
+    },
   },
 });
 

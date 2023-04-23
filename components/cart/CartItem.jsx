@@ -1,4 +1,5 @@
 import {
+  removeItemFromCart,
   updateProductSize,
   updateQuantityOfProduct,
   updateSubTotalPrice,
@@ -79,7 +80,13 @@ const CartItem = ({
       {/*  */}
       <div className="flex flex-col gap-16 items-center">
         <p className="opacity-60 text-xs md:text-base">MRP &#8377; {price}</p>
-        <div className="w-14 h-14 rounded-full flex justify-center items-center hover:bg-red-400 ">
+        <div
+          className="w-14 h-14 rounded-full flex justify-center items-center hover:bg-red-400 "
+          onClick={() => {
+            dispatch(removeItemFromCart({ productId }));
+            dispatch(updateSubTotalPrice());
+          }}
+        >
           <AiOutlineDelete size={"1.5rem"} className="opacity-50" />
         </div>
       </div>
