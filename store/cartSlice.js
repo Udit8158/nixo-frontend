@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+// const cartInLocalStorage = JSON.parse(localStorage.getItem('nixo-cart'));
+// console.log(cartInLocalStorage)
+
 export const cartSlice = createSlice({
   name: "cart",
   initialState: {
@@ -17,6 +20,8 @@ export const cartSlice = createSlice({
         total += item.price * item.qty;
       });
       state.value.subTotalPrice = total;
+
+      localStorage.setItem("nixo-cart", JSON.stringify(state.value));
     },
 
     // add item to cart function
@@ -33,6 +38,8 @@ export const cartSlice = createSlice({
         const product = state.value.data[productIndex];
         product.qty++;
       }
+
+      localStorage.setItem("nixo-cart", JSON.stringify(state.value));
     },
 
     // update the quantity of the product
@@ -45,6 +52,8 @@ export const cartSlice = createSlice({
 
       // update qty
       product.qty = action.payload.qty;
+
+      localStorage.setItem("nixo-cart", JSON.stringify(state.value));
     },
 
     // update product size
@@ -57,6 +66,8 @@ export const cartSlice = createSlice({
 
       // update product size
       product.selectedSize = action.payload.size;
+
+      localStorage.setItem("nixo-cart", JSON.stringify(state.value));
     },
     removeItemFromCart: function (state, action) {
       // remove the product from cart
@@ -64,9 +75,14 @@ export const cartSlice = createSlice({
         (item) => item.productId !== action.payload.productId
       );
       state.value.data = [...filteredCartData];
+
+      localStorage.setItem("nixo-cart", JSON.stringify(state.value));
     },
     emptyCart: function (state) {
       state.value.data = [];
+    },
+    setAllCartData: (state, action) => {
+      state.value = action.payload;
     },
   },
 });
@@ -79,6 +95,7 @@ export const {
   updateProductSize,
   removeItemFromCart,
   emptyCart,
+  setAllCartData
 } = cartSlice.actions;
 
 export default cartSlice.reducer;
