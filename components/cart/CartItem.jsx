@@ -1,4 +1,5 @@
 import {
+  updateProductSize,
   updateQuantityOfProduct,
   updateSubTotalPrice,
 } from "@/store/cartSlice";
@@ -6,7 +7,16 @@ import React, { useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 
-const CartItem = ({ name, productId, subTitle, price, thumbnail, qty }) => {
+const CartItem = ({
+  name,
+  productId,
+  subTitle,
+  price,
+  thumbnail,
+  qty,
+  availableSizes,
+  selectedSize,
+}) => {
   const dispatch = useDispatch();
   let quantities = [1, 2, 3];
   if (qty > 1) {
@@ -26,14 +36,22 @@ const CartItem = ({ name, productId, subTitle, price, thumbnail, qty }) => {
           {/* TODO: Restricted size and qty */}
 
           <div className="flex md:items-center gap-3 opacity-50 flex-col  md:flex-row text-xs md:text-base">
-            {/* <div className="flex gap-2 items-center">
+            <div className="flex gap-2 items-center">
               <label htmlFor="size-select">Size</label>
-              <select name="size-select">
-                <option value="UK 6">UK 6</option>
-                <option value="UK 6.5">UK 6.5</option>
-                <option value="UK 7">UK 7</option>
+              <select
+                name="size-select"
+                defaultValue={selectedSize}
+                onChangeCapture={(e) =>
+                  dispatch(
+                    updateProductSize({ productId, size: e.target.value })
+                  )
+                }
+              >
+                {availableSizes.map((s) => (
+                  <option key={s.size}>{s.size}</option>
+                ))}
               </select>
-            </div> */}
+            </div>
             <div className="flex gap-2 items-center">
               <label htmlFor="qty-select">Quantity</label>
               <select

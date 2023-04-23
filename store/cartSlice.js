@@ -43,8 +43,20 @@ export const cartSlice = createSlice({
       );
       const product = state.value.data[productIndex];
 
-      // calculate how much qty
+      // update qty
       product.qty = action.payload.qty;
+    },
+
+    // update product size
+    updateProductSize: (state, action) => {
+      // find the product in cart where qty needs to be updated
+      const productIndex = state.value.data.findIndex(
+        (element) => element.productId === action.payload.productId
+      );
+      const product = state.value.data[productIndex];
+
+      // update product size
+      product.selectedSize = action.payload.size;
     },
     removeItemFromCart: function (state, item) {},
     emptyCart: function (state) {},
@@ -56,6 +68,7 @@ export const {
   updateSubTotalPrice,
   addItemToCart,
   updateQuantityOfProduct,
+  updateProductSize,
   removeItemFromCart,
   emptyCart,
 } = cartSlice.actions;

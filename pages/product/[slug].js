@@ -23,6 +23,7 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
     price: productData?.price,
     productId: productData?.productId,
     qty: 1,
+    availableSizes: productData?.sizes?.data.filter(s => s.enabled === true)
   };
   const router = useRouter()
   

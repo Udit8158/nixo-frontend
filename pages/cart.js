@@ -27,6 +27,7 @@ const CartPage = () => {
                   subTitle={item.subTitle}
                   productId={item.productId}
                   qty={item.qty}
+                  availableSizes={item.availableSizes}
                 />
               ))}
             </div>
