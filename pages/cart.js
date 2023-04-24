@@ -1,7 +1,7 @@
 import CartItem from "@/components/cart/CartItem";
 import { emptyCart } from "@/store/cartSlice";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import makePayment from "@/utils/makePayment";
@@ -11,6 +11,7 @@ const stripePromise = loadStripe(
 );
 
 const CartPage = () => {
+  const [loading, setLoading] = useState(false);
   const cart = useSelector((store) => store.cart.value);
   console.log(cart);
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const CartPage = () => {
   // payment
   const handlePayment = async () => {
     try {
-      // setLoading(true);
+      setLoading(true);
       const stripe = await stripePromise;
       const res = await makePayment("api/orders", {
         products: cart.data,
@@ -26,8 +27,9 @@ const CartPage = () => {
       await stripe.redirectToCheckout({
         sessionId: res.stripeSession.id,
       });
+      setLoading(false);
     } catch (error) {
-      // setLoading(false);
+      setLoading(false);
       console.log(error);
     }
   };
@@ -53,7 +55,6 @@ const CartPage = () => {
                   productId={item.productId}
                   qty={item.qty}
                   availableSizes={item.availableSizes}
-                  
                 />
               ))}
             </div>
@@ -76,10 +77,15 @@ const CartPage = () => {
               </div>
             </div>
             <button
-              className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95"
+              className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95  flex items-center justify-center"
               onClick={handlePayment}
             >
-              Checkout
+              {loading && (
+                <span className="">
+                  <img src="../assets/spinner.svg" />
+                </span>
+              )}
+              {!loading && "Checkout"}
             </button>
             <button
               className="px-6 py-3 hover:opacity-70 rounded-xl bg-red-600 text-white  transform transition-all  duration-300 hover:scale-95"

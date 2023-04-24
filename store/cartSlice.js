@@ -80,6 +80,7 @@ export const cartSlice = createSlice({
     },
     emptyCart: function (state) {
       state.value.data = [];
+      state.value.subTotalPrice = 0;
       localStorage.setItem("nixo-cart", JSON.stringify(state.value));
     },
     setAllCartData: (state, action) => {
