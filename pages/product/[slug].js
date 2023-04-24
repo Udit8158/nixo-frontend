@@ -12,6 +12,7 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts, id }) => {
   // For size selection
   const [selectedSize, setSelectedSize] = useState(null);
   const [isCartBtnClicked, setIsCartBtnClicked] = useState(false)
+  const [showWrongSizeMsg, setShowWrongSizeMsg] = useState(false)
 
   // For add to cart
   const dispatch = useDispatch();
@@ -77,11 +78,20 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts, id }) => {
                  
             `}
                 key={s.size}
-                onClick={() => s.enabled && setSelectedSize(s.size)}
+                onClick={() => {
+                  if (s.enabled) {
+                   setSelectedSize(s.size)
+                   setShowWrongSizeMsg(false)
+                  } else {
+                    setShowWrongSizeMsg(true)
+                  }
+                  
+                }}
               >
                 {s.size}
               </div>
             ))}
+            {showWrongSizeMsg && <p className='text-red-600 opacity-80 col-span-3'>Sorry! This size is not available.</p>}
           </div>
 
           {/* 3. Buttons section */}

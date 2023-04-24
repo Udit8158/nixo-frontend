@@ -13,7 +13,7 @@ const stripePromise = loadStripe(
 const CartPage = () => {
   const [loading, setLoading] = useState(false);
   const cart = useSelector((store) => store.cart.value);
-  console.log(cart);
+  // console.log(cart);
   const dispatch = useDispatch();
 
   // payment
