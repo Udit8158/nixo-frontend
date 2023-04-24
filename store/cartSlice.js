@@ -80,6 +80,7 @@ export const cartSlice = createSlice({
     },
     emptyCart: function (state) {
       state.value.data = [];
+      localStorage.setItem("nixo-cart", JSON.stringify(state.value));
     },
     setAllCartData: (state, action) => {
       state.value = action.payload;
@@ -95,7 +96,7 @@ export const {
   updateProductSize,
   removeItemFromCart,
   emptyCart,
-  setAllCartData
+  setAllCartData,
 } = cartSlice.actions;
 
 export default cartSlice.reducer;

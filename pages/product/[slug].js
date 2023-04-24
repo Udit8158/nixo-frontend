@@ -8,11 +8,10 @@ import { useDispatch } from "react-redux";
 import { addItemToCart, updateSubTotalPrice } from "@/store/cartSlice";
 import { useRouter } from "next/router";
 
-const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
+const ProductDetailsPage = ({ productData, sameSubTitleProducts, id }) => {
   // For size selection
   const [selectedSize, setSelectedSize] = useState();
   // console.log(selectedSize);
-
   // For add to cart
   const dispatch = useDispatch();
   const productDataForCart = {
@@ -23,10 +22,11 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
     price: productData?.price,
     productId: productData?.productId,
     qty: 1,
-    availableSizes: productData?.sizes?.data.filter(s => s.enabled === true)
+    availableSizes: productData?.sizes?.data.filter((s) => s.enabled === true),
+    id,
   };
-  const router = useRouter()
-  
+  const router = useRouter();
+
   return (
     <div>
       <div className="flex flex-col md:flex-row gap-5 my-8">
@@ -87,15 +87,13 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts }) => {
           <div className="mt-8 flex flex-col">
             <button
               className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95"
-              onClick={() =>{
+              onClick={() => {
                 if (selectedSize) {
-                  dispatch(addItemToCart(productDataForCart))
-                  dispatch(updateSubTotalPrice())
-                  router.push('/cart')
-                } 
-              
-              }
-              }
+                  dispatch(addItemToCart(productDataForCart));
+                  dispatch(updateSubTotalPrice());
+                  router.push("/cart");
+                }
+              }}
             >
               Add to cart
             </button>
@@ -124,8 +122,8 @@ export default ProductDetailsPage;
 // define the paths which only can be accessable by the id of unique products
 export async function getStaticPaths() {
   // Getting all the products data
-  const { data: productsData } = await fetcher("GET", "api/products");
-
+  const { data: productsData, id } = await fetcher("GET", "api/products");
+  console.log(id);
   // Creates the paths from the products id
   const pathsData = productsData?.map((prod) => {
     // return the object formatted in docs
@@ -160,6 +158,7 @@ export async function getStaticProps({ params }) {
     props: {
       productData: data[0].attributes, // send only the data object of the product
       sameSubTitleProducts: sameSubTitleProducts.data,
+      id: data[0].id,
     },
   };
 }

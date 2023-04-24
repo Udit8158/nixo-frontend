@@ -4,10 +4,33 @@ import Link from "next/link";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import makePayment from "@/utils/makePayment";
+import { loadStripe } from "@stripe/stripe-js";
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+);
+
 const CartPage = () => {
   const cart = useSelector((store) => store.cart.value);
   console.log(cart);
   const dispatch = useDispatch();
+
+  // payment
+  const handlePayment = async () => {
+    try {
+      // setLoading(true);
+      const stripe = await stripePromise;
+      const res = await makePayment("api/orders", {
+        products: cart.data,
+      });
+      await stripe.redirectToCheckout({
+        sessionId: res.stripeSession.id,
+      });
+    } catch (error) {
+      // setLoading(false);
+      console.log(error);
+    }
+  };
 
   if (cart?.data?.length > 0) {
     return (
@@ -30,6 +53,7 @@ const CartPage = () => {
                   productId={item.productId}
                   qty={item.qty}
                   availableSizes={item.availableSizes}
+                  
                 />
               ))}
             </div>
@@ -51,7 +75,10 @@ const CartPage = () => {
                 </p>
               </div>
             </div>
-            <button className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95">
+            <button
+              className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95"
+              onClick={handlePayment}
+            >
               Checkout
             </button>
             <button
