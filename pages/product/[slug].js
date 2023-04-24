@@ -10,8 +10,9 @@ import { useRouter } from "next/router";
 
 const ProductDetailsPage = ({ productData, sameSubTitleProducts, id }) => {
   // For size selection
-  const [selectedSize, setSelectedSize] = useState();
-  // console.log(selectedSize);
+  const [selectedSize, setSelectedSize] = useState(null);
+  const [isCartBtnClicked, setIsCartBtnClicked] = useState(false)
+
   // For add to cart
   const dispatch = useDispatch();
   const productDataForCart = {
@@ -84,10 +85,11 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts, id }) => {
           </div>
 
           {/* 3. Buttons section */}
-          <div className="mt-8 flex flex-col">
+          <div className="mt-8 flex flex-col gap-1">
             <button
               className="px-6 py-3 hover:opacity-70 rounded-xl bg-black text-white  transform transition-all  duration-300 hover:scale-95"
               onClick={() => {
+                setIsCartBtnClicked(true)
                 if (selectedSize) {
                   dispatch(addItemToCart(productDataForCart));
                   dispatch(updateSubTotalPrice());
@@ -97,6 +99,7 @@ const ProductDetailsPage = ({ productData, sameSubTitleProducts, id }) => {
             >
               Add to cart
             </button>
+            {(!selectedSize && isCartBtnClicked) && <p className='text-red-600 opacity-80'>You need select a size to put this item on cart</p>}
           </div>
 
           {/* 4. Prdoduct details */}

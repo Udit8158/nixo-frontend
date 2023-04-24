@@ -6,11 +6,13 @@ import NavMenu from "./NavMenu";
 import MobileMenu from "./MobileMenu";
 import fetcher from "@/utils/fetchData";
 import { useSelector } from "react-redux";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const [showCategoryMenuItems, setShowCategoryMenuItems] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const cart = useSelector((store) => store.cart.value.data);
+  const router = useRouter()
 
   const navMenuItems = [
     { id: 1, name: "Home", path: "/" },
@@ -29,6 +31,8 @@ const Navbar = () => {
 
   const [categoryMenuItems, setCategoryMenuItems] = useState([]);
 
+  
+
   useEffect(() => {
     const getCategoryMenuItemsData = async () => {
       const { data } = await fetcher("GET", "api/categories?populate=*");
@@ -44,6 +48,11 @@ const Navbar = () => {
     };
     getCategoryMenuItemsData();
   }, []);
+
+  // On page change hide mobile menu
+  useEffect(() => {
+    setShowMobileMenu(false)
+  }, [router.pathname]);
 
   return (
     <div className="">
