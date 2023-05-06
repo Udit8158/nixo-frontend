@@ -12,7 +12,7 @@ const Navbar = () => {
   const [showCategoryMenuItems, setShowCategoryMenuItems] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const cart = useSelector((store) => store.cart.value.data);
-  const router = useRouter()
+  const router = useRouter();
 
   const navMenuItems = [
     { id: 1, name: "Home", path: "/" },
@@ -31,9 +31,8 @@ const Navbar = () => {
 
   const [categoryMenuItems, setCategoryMenuItems] = useState([]);
 
-  
-
   useEffect(() => {
+    console.log("Execute");
     const getCategoryMenuItemsData = async () => {
       const { data } = await fetcher("GET", "api/categories?populate=*");
       const refinedData = data?.map(({ attributes }) => {
@@ -44,6 +43,7 @@ const Navbar = () => {
           qty: attributes?.products?.data.length,
         };
       });
+      console.log(refinedData);
       setCategoryMenuItems([...refinedData]);
     };
     getCategoryMenuItemsData();
@@ -51,7 +51,7 @@ const Navbar = () => {
 
   // On page change hide mobile menu
   useEffect(() => {
-    setShowMobileMenu(false)
+    setShowMobileMenu(false);
   }, [router.pathname]);
 
   return (
